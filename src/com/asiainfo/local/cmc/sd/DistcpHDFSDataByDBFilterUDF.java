@@ -35,6 +35,7 @@ import org.hibernate.SessionFactory;
 /**
  * 
  * @author liugang by 2017
+ * test
  *  
  */
 public class DistcpHDFSDataByDBFilterUDF implements UDFActivity {
