@@ -34,8 +34,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 /**
  * 
- * @author liugang
- *
+ * @author liugang by 2017
+ *  
  */
 public class DistcpHDFSDataByDBFilterUDF implements UDFActivity {
 	private static final Log log = LogFactory
