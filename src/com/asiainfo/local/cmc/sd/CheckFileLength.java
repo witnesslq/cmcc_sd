@@ -213,7 +213,7 @@
      String dataTime = (String)udfParams.get("DATA_TIME");
      DataFlowContext context = (DataFlowContext)env.get("DFContext");
      this.instanceId = ((String)env.get("jobLogId"));
- 
+     
      for (String targetPathString : this.targetMap.keySet()) {
        Path targetPath = new Path(targetPathString);
        try {
@@ -222,17 +222,22 @@
          throw ex;
        }
      }
+     StringBuffer testSb= new StringBuffer();
+     LOG.info("targetMap Info:\n");
+     for (String targetPathString : this.targetMap.keySet()) {
+    	 testSb.append("key:"+targetPathString+" value:"+this.targetMap.get(targetPathString+"\n"));
+     }
+     LOG.info(testSb);
+     LOG.error("this.needCalcFileArrayString.length(): "+this.needCalcFileArrayString.length());
      this.needCalcFileArrayString = this.needCalcFileArrayString.substring(0, this.needCalcFileArrayString.length() - 1);
      writeLocalLog("创建一个job...");
      Job job = createJob(this.needCalcFileArrayString);
-     //LOG.info("job.getCounters()111111111======"+job.getCounters());
       try
       {
        
        writeLocalLog("job创建完毕。jobID=" + job.getJobID());
        writeLocalLog("提交job...");
        job.submit();
-     //  LOG.info("job.getCounters()222222222======"+job.getCounters());
       } 
       catch (Exception ex) {
        String errMsg = "submit mr-job failed";
@@ -250,8 +255,8 @@
      {
        boolean isSucc = job.waitForCompletion(true);
        if (!isSucc) {
-         String errMsg = "excute mr-job[" + job.getJobID() + "] failed";
-        // LOG.info("job.getCounters()333333333======"+job.getCounters());
+         String errMsg = "excute mr-job[" + job.getJobID() + "] failed"+"\n needCalcFileArrayString.length[isSucc]:"+this.needCalcFileArrayString.length();
+         
          LOG.error(errMsg);
          writeLocalLog(null, errMsg);
          this.result = JobResult.ERROR;
@@ -261,7 +266,7 @@
      } 
      catch (Exception ex) 
      {
-       String errMsg = "excute mr-job[" + job.getJobID() + "] failed ";
+       String errMsg = "excute mr-job[" + job.getJobID() + "] failed"+"\n needCalcFileArrayString.length[isSucc_Exception]:"+this.needCalcFileArrayString.length();
        LOG.error(errMsg, ex);
        writeLocalLog(ex, errMsg);
        this.result = JobResult.ERROR;
@@ -269,14 +274,13 @@
        throw ex;
      }
      writeLocalLog("job保存完毕.");    
-     LOG.info("测试代码1111111111111111111111111111111111111111111111");
      try 
      {
     	 LOG.info("job.isComplete()======"+job.isComplete());
     	 LOG.info("job.isRetired()======"+job.isRetired());
     	 LOG.info("job.isSuccessful()======"+job.isSuccessful());
-       LOG.info("job.getCounters()======"+job.getCounters());
-       LOG.info("job.getCounters().getGroup(file_LineNum_Group======"+job.getCounters().getGroup("file_LineNum_Group"));
+    	 LOG.info("job.getCounters()======"+job.getCounters());
+    	 LOG.info("job.getCounters().getGroup(file_LineNum_Group======"+job.getCounters().getGroup("file_LineNum_Group"));
        CounterGroup file_LineNum_Group = (CounterGroup)job.getCounters().getGroup("file_LineNum_Group");
        for (Check check : this.needCalcFileList) 
        {
@@ -292,15 +296,13 @@
      }
      catch (IOException ex) 
      {
-       LOG.info("测试代码2222222222222222222222");
-       String errMsg = "excute mr-job[" + job.getJobID() + "] failed ";
+       String errMsg = "excute mr-job[" + job.getJobID() + "] failed"+"\n needCalcFileArrayString.length[file_LineNum_Group]:"+this.needCalcFileArrayString.length();
        LOG.error(errMsg, ex);
        writeLocalLog(ex, errMsg);
        this.result = JobResult.ERROR;
        this.returnMap.put("MAPREDUCE_ERROR", "excute mr-job[" + job.getJobID() + "] failed : [" + ex.getMessage() + "]");
        throw ex;
      }
-     LOG.info("测试代码33333333333333333333333333333");
      DataTimeUtil dtu = new DataTimeUtil();
      String newDataTime;
      for (Check check : this.needCalcFileList) {

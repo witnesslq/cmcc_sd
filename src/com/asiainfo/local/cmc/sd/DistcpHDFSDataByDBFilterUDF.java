@@ -156,7 +156,7 @@ public class DistcpHDFSDataByDBFilterUDF implements UDFActivity {
 				fileToPath, filter, true, false, this.numMapTask, null, conf,
 				this.needFiles);
 		if ((resultMap != null) && (resultMap.containsKey("FAIL"))) {
-			String msg = "向目标路径：" + toPath + "复制文件失败";
+			String msg = "向目标路径：" + toPath + " 复制文件失败";
 			this.retMap.put(ReadableMsgUtils.readableMsg, msg);
 			throw new AICloudETLRuntimeException(msg);
 		}

@@ -35,7 +35,6 @@ import com.ailk.cloudetl.ndataflow.api.HisActivity;
 import com.ailk.cloudetl.ndataflow.api.constant.JobResult;
 import com.ailk.cloudetl.ndataflow.api.udf.UDFActivity;
 import com.ailk.cloudetl.ndataflow.intarnel.log.TaskNodeLogger;
-
 public class ValidateDataNode
   implements UDFActivity
 {
@@ -63,6 +62,7 @@ public class ValidateDataNode
   private Logger localLogger = null;
 
   public static void main(String[] args) throws Exception {
+	  
     while (true) {
       ValidateDataNode n = new ValidateDataNode();
       n.getConnection(null);
